@@ -1,2 +1,2 @@
 # Artify
-Artify is an AI-powered image style transfer bot that transforms ordinary photos into stunning artworks inspired by famous artists, from classical masters to modern visionaries.
+Artify is an AI-powered image style transfer bot that transforms ordinary photos into stunning artworks inspired by famous artists, from classical masters to modern visionaries. With a single prompt, Artify applies neural style transfer to give images the unique textures, colors, and brushstrokes of renowned styles like Van Gogh, Picasso, and contemporary digital art. Built to celebrate art and creativity, Artify offers a blend of AI and artistry, making it easy to reimagine any photo as a masterpiece.

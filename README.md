@@ -22,3 +22,4 @@
    - Expanding the style library and custom user options.
    - Real-time processing for faster, optimized results.
    - A mobile-friendly interface or dedicated app for broader accessibility.
+

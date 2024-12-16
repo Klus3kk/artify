@@ -2,3 +2,5 @@ artify.egg-info
 src/__pycache__
 test
 .pytest_cache
+images/content/
+images/output/

@@ -3,18 +3,26 @@ import torch.optim as optim
 import torchvision.transforms as transforms
 from torchvision.models import vgg19
 from PIL import Image
+import logging
+import os
+
 
 class StyleTransferModel:
     def __init__(self):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        logging.info(f"Device set to: {'GPU' if torch.cuda.is_available() else 'CPU'}")
         self.model = self._load_pretrained_model()
 
     def _load_pretrained_model(self):
-        # Load VGG-19 pretrained model for feature extraction
-        model = vgg19(pretrained=True).features
-        for param in model.parameters():
-            param.requires_grad = False
-        return model.to(self.device)
+        try:
+            model = vgg19(pretrained=True).features
+            for param in model.parameters():
+                param.requires_grad = False
+            logging.info("Pretrained VGG-19 model loaded successfully.")
+            return model.to(self.device)
+        except Exception as e:
+            logging.error(f"Failed to load pretrained model: {e}")
+            raise
 
     def apply_style(self, content_image, style_image, iterations=300, style_weight=1e6, content_weight=1):
         # Preprocess images
@@ -146,7 +154,7 @@ class StyleTransferModel:
             optimizer.step()
 
             if (i + 1) % 10 == 0 or i == 0:
-                print(f"\nIteration {i + 1}/{iterations}: \n"
+                logging.info(f"\nIteration {i + 1}/{iterations}: \n"
                     f"Content Loss = {content_loss.item():.4f} \n"
                     f"Style Loss = {style_loss.item():.4f} \n"
                     f"TV Loss = {tv_loss.item():.4f} \n"

@@ -1,6 +1,8 @@
 import os
 from google.cloud import storage
+from google.auth.exceptions import DefaultCredentialsError
 import logging
+
 
 class CloudUploader:
     @staticmethod
@@ -20,9 +22,12 @@ class CloudUploader:
             bucket = client.bucket(bucket_name)
             blob = bucket.blob(destination_blob_name)
             blob.upload_from_filename(file_path)
-            logging.info(f"File {file_path} uploaded to {destination_blob_name}.")
+            logging.info(f"Successfully uploaded {file_path} to gs://{bucket_name}/{destination_blob_name}.")
+        except DefaultCredentialsError:
+            logging.error("Google Cloud credentials not found. Please authenticate.")
+            raise
         except Exception as e:
-            logging.error(f"Failed to upload {file_path} to {bucket_name}/{destination_blob_name}: {e}")
+            logging.error(f"Failed to upload {file_path} to gs://{bucket_name}/{destination_blob_name}: {e}")
             raise
 
     @staticmethod
@@ -34,11 +39,17 @@ class CloudUploader:
         :param destination_file_name: Path to save the downloaded file.
         """
         try:
+            # Ensure the destination directory exists
+            os.makedirs(os.path.dirname(destination_file_name), exist_ok=True)
+
             client = storage.Client()
             bucket = client.bucket(bucket_name)
             blob = bucket.blob(source_blob_name)
             blob.download_to_filename(destination_file_name)
-            logging.info(f"Blob {source_blob_name} downloaded to {destination_file_name}.")
+            logging.info(f"Downloaded gs://{bucket_name}/{source_blob_name} to {destination_file_name}.")
+        except DefaultCredentialsError:
+            logging.error("Google Cloud credentials not found. Please authenticate.")
+            raise
         except Exception as e:
-            logging.error(f"Failed to download {source_blob_name} from {bucket_name}: {e}")
+            logging.error(f"Failed to download {source_blob_name} from gs://{bucket_name}: {e}")
             raise

@@ -1,44 +1,72 @@
-import os
-from google.cloud import storage
+import subprocess
 import logging
 
-class CloudUploader:
-    @staticmethod
-    def upload_to_cloud(bucket_name, file_path, destination_blob_name):
-        """
-        Uploads a file to Google Cloud Storage.
-        :param bucket_name: Name of the GCS bucket.
-        :param file_path: Path to the local file.
-        :param destination_blob_name: Name of the blob in GCS.
-        """
-        if not os.path.exists(file_path):
-            logging.error(f"File {file_path} does not exist.")
-            raise FileNotFoundError(f"File {file_path} does not exist.")
 
+class DockerHandler:
+    @staticmethod
+    def build_image(dockerfile_path: str, image_name: str):
+        """
+        Build a Docker image from the specified Dockerfile.
+        :param dockerfile_path: Path to the Dockerfile.
+        :param image_name: Name to tag the built image.
+        """
         try:
-            client = storage.Client()
-            bucket = client.bucket(bucket_name)
-            blob = bucket.blob(destination_blob_name)
-            blob.upload_from_filename(file_path)
-            logging.info(f"File {file_path} uploaded to {destination_blob_name}.")
-        except Exception as e:
-            logging.error(f"Failed to upload {file_path} to {bucket_name}/{destination_blob_name}: {e}")
+            command = ["docker", "build", "-f", dockerfile_path, "-t", image_name, "."]
+            subprocess.run(command, check=True)
+            logging.info(f"Docker image '{image_name}' built successfully.")
+        except subprocess.CalledProcessError as e:
+            logging.error(f"Failed to build Docker image '{image_name}': {e}")
             raise
 
     @staticmethod
-    def download_from_cloud(bucket_name, source_blob_name, destination_file_name):
+    def run_container(image_name: str, container_name: str, ports: dict, volumes: dict = None):
         """
-        Downloads a blob from Google Cloud Storage to a local file.
-        :param bucket_name: Name of the GCS bucket.
-        :param source_blob_name: Name of the blob in GCS.
-        :param destination_file_name: Path to save the downloaded file.
+        Run a Docker container from an image.
+        :param image_name: Name of the Docker image.
+        :param container_name: Name for the running container.
+        :param ports: Port mappings in the form {host_port: container_port}.
+        :param volumes: Volume mappings in the form {host_path: container_path}.
         """
         try:
-            client = storage.Client()
-            bucket = client.bucket(bucket_name)
-            blob = bucket.blob(source_blob_name)
-            blob.download_to_filename(destination_file_name)
-            logging.info(f"Blob {source_blob_name} downloaded to {destination_file_name}.")
-        except Exception as e:
-            logging.error(f"Failed to download {source_blob_name} from {bucket_name}: {e}")
+            command = ["docker", "run", "-d", "--name", container_name]
+            for host_port, container_port in ports.items():
+                command.extend(["-p", f"{host_port}:{container_port}"])
+            if volumes:
+                for host_path, container_path in volumes.items():
+                    command.extend(["-v", f"{host_path}:{container_path}"])
+            command.append(image_name)
+            subprocess.run(command, check=True)
+            logging.info(f"Docker container '{container_name}' started successfully.")
+        except subprocess.CalledProcessError as e:
+            logging.error(f"Failed to run Docker container '{container_name}': {e}")
+            raise
+
+    @staticmethod
+    def stop_container(container_name: str):
+        """
+        Stop a running Docker container.
+        :param container_name: Name of the container to stop.
+        """
+        try:
+            command = ["docker", "stop", container_name]
+            subprocess.run(command, check=True)
+            logging.info(f"Docker container '{container_name}' stopped successfully.")
+        except subprocess.CalledProcessError as e:
+            logging.error(f"Failed to stop Docker container '{container_name}': {e}")
+            raise
+
+    @staticmethod
+    def push_image(image_name: str, registry_url: str):
+        """
+        Push a Docker image to a registry.
+        :param image_name: Name of the Docker image.
+        :param registry_url: Registry URL to push the image to.
+        """
+        try:
+            tagged_image = f"{registry_url}/{image_name}"
+            subprocess.run(["docker", "tag", image_name, tagged_image], check=True)
+            subprocess.run(["docker", "push", tagged_image], check=True)
+            logging.info(f"Docker image '{image_name}' pushed to '{registry_url}'.")
+        except subprocess.CalledProcessError as e:
+            logging.error(f"Failed to push Docker image '{image_name}' to '{registry_url}': {e}")
             raise

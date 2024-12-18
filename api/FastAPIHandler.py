@@ -16,12 +16,17 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 @app.post("/apply_style/")
 async def apply_style(content: UploadFile = File(...), style_category: str = "impressionism"):
+    # Dynamically load the model for the selected style
+    model_path = f"models/{style_category}_model.pth"
+    model.load_model_from_gcloud("your-bucket-name", model_path)
+
+    # Read content image
     content_image = Image.open(BytesIO(await content.read())).convert("RGB")
-    style_image_path = registry.get_random_style_image(style_category)
-    style_image = Image.open(style_image_path).convert("RGB")
 
-    styled_image = model.apply_style(content_image, style_image)
+    # Apply the style
+    styled_image = model.apply_style(content_image, None)
 
+    # Save and return the styled image
     output_path = os.path.join(OUTPUT_DIR, f"styled_{content.filename}")
     processor.save_image(styled_image, output_path)
 

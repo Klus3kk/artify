@@ -8,7 +8,12 @@ def test_style_registry_random_selection():
     registry = StyleRegistry()
     random_style = registry.get_random_style_image("impressionism")
     assert random_style is not None, "Random style image should be selected."
-    assert "impressionism" in random_style, "Selected image should belong to the requested category."
+    assert "impressionism" in random_style
+
+def test_style_registry_invalid_category():
+    registry = StyleRegistry()
+    with pytest.raises(ValueError):
+        registry.get_random_style_image("invalid_category")
 
 def test_config_manager(tmp_path):
     config_path = tmp_path / "config.json"

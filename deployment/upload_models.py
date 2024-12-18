@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 registry = StyleRegistry()
 
 # Google Cloud Storage bucket name
-bucket_name = os.getenv("GCS_BUCKET_NAME", "your-bucket-name")
+bucket_name = os.getenv("GCS_BUCKET_NAME", "artify-models")
 
 # Upload each model to the cloud
 for category in registry.styles.keys():

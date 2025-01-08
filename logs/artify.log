@@ -1,0 +1,96 @@
+2025-01-08 21:04:16,756 - INFO - [1/5] Validating input arguments...
+2025-01-08 21:04:16,756 - INFO - [2/5] Initializing components...
+2025-01-08 21:04:16,756 - INFO - Device set to: CPU
+2025-01-08 21:04:17,654 - INFO - Pretrained VGG-19 model loaded successfully.
+2025-01-08 21:04:17,656 - INFO - [3/5] Preprocessing content image...
+2025-01-08 21:04:17,666 - INFO - [4/5] Loading and preprocessing style image...
+2025-01-08 21:04:17,704 - INFO - [5/5] Applying style transfer... This may take a few moments.
+2025-01-08 21:04:19,731 - INFO - Starting style application for 300 iterations...
+2025-01-08 21:04:22,379 - INFO - Iteration 1/300 - Content Loss: 0.0000, Style Loss: 1141.4622, Total Loss: 1141462144.0000
+2025-01-08 21:04:45,188 - INFO - Iteration 10/300 - Content Loss: 2.0707, Style Loss: 951.9932, Total Loss: 951993216.0000
+2025-01-08 21:05:10,289 - INFO - Iteration 20/300 - Content Loss: 3.5488, Style Loss: 782.6066, Total Loss: 782606656.0000
+2025-01-08 21:05:34,026 - INFO - Iteration 30/300 - Content Loss: 4.3586, Style Loss: 643.7859, Total Loss: 643785920.0000
+2025-01-08 21:05:57,877 - INFO - Iteration 40/300 - Content Loss: 4.8943, Style Loss: 552.6511, Total Loss: 552651072.0000
+2025-01-08 21:06:23,688 - INFO - Iteration 50/300 - Content Loss: 5.3770, Style Loss: 490.6390, Total Loss: 490639040.0000
+2025-01-08 21:06:49,351 - INFO - Iteration 60/300 - Content Loss: 5.8157, Style Loss: 446.4941, Total Loss: 446494112.0000
+2025-01-08 21:07:14,847 - INFO - Iteration 70/300 - Content Loss: 6.1673, Style Loss: 413.4120, Total Loss: 413412000.0000
+2025-01-08 21:07:40,796 - INFO - Iteration 80/300 - Content Loss: 6.4491, Style Loss: 387.2552, Total Loss: 387255200.0000
+2025-01-08 21:08:06,441 - INFO - Iteration 90/300 - Content Loss: 6.6760, Style Loss: 365.6478, Total Loss: 365647840.0000
+2025-01-08 21:08:31,575 - INFO - Iteration 100/300 - Content Loss: 6.8552, Style Loss: 347.2936, Total Loss: 347293568.0000
+2025-01-08 21:08:56,777 - INFO - Iteration 110/300 - Content Loss: 7.0005, Style Loss: 331.3562, Total Loss: 331356192.0000
+2025-01-08 21:09:21,921 - INFO - Iteration 120/300 - Content Loss: 7.1308, Style Loss: 317.2598, Total Loss: 317259840.0000
+2025-01-08 21:09:47,101 - INFO - Iteration 130/300 - Content Loss: 7.2446, Style Loss: 304.6137, Total Loss: 304613728.0000
+2025-01-08 21:10:12,961 - INFO - Iteration 140/300 - Content Loss: 7.3494, Style Loss: 293.1540, Total Loss: 293153984.0000
+2025-01-08 21:10:38,328 - INFO - Iteration 150/300 - Content Loss: 7.4417, Style Loss: 282.6670, Total Loss: 282667008.0000
+2025-01-08 21:11:01,611 - INFO - Iteration 160/300 - Content Loss: 7.5268, Style Loss: 272.9883, Total Loss: 272988288.0000
+2025-01-08 21:11:25,299 - INFO - Iteration 170/300 - Content Loss: 7.6085, Style Loss: 264.0106, Total Loss: 264010624.0000
+2025-01-08 21:11:50,936 - INFO - Iteration 180/300 - Content Loss: 7.6789, Style Loss: 255.6558, Total Loss: 255655760.0000
+2025-01-08 21:12:15,281 - INFO - Iteration 190/300 - Content Loss: 7.7470, Style Loss: 247.8482, Total Loss: 247848240.0000
+2025-01-08 21:12:39,605 - INFO - Iteration 200/300 - Content Loss: 7.8123, Style Loss: 240.5180, Total Loss: 240518032.0000
+2025-01-08 21:13:03,839 - INFO - Iteration 210/300 - Content Loss: 7.8713, Style Loss: 233.6052, Total Loss: 233605184.0000
+2025-01-08 21:13:27,520 - INFO - Iteration 220/300 - Content Loss: 7.9268, Style Loss: 227.0633, Total Loss: 227063264.0000
+2025-01-08 21:13:52,222 - INFO - Iteration 230/300 - Content Loss: 7.9742, Style Loss: 220.8597, Total Loss: 220859744.0000
+2025-01-08 21:14:16,705 - INFO - Iteration 240/300 - Content Loss: 8.0225, Style Loss: 214.9597, Total Loss: 214959664.0000
+2025-01-08 21:14:40,650 - INFO - Iteration 250/300 - Content Loss: 8.0700, Style Loss: 209.3371, Total Loss: 209337088.0000
+2025-01-08 21:15:04,588 - INFO - Iteration 260/300 - Content Loss: 8.1153, Style Loss: 203.9630, Total Loss: 203962960.0000
+2025-01-08 21:15:27,297 - INFO - Iteration 270/300 - Content Loss: 8.1579, Style Loss: 198.8124, Total Loss: 198812400.0000
+2025-01-08 21:15:52,294 - INFO - Iteration 280/300 - Content Loss: 8.1977, Style Loss: 193.8725, Total Loss: 193872480.0000
+2025-01-08 21:16:16,013 - INFO - Iteration 290/300 - Content Loss: 8.2337, Style Loss: 189.1219, Total Loss: 189121872.0000
+2025-01-08 21:16:39,861 - INFO - Iteration 300/300 - Content Loss: 8.2692, Style Loss: 184.5457, Total Loss: 184545696.0000
+2025-01-08 21:16:39,861 - INFO - Style application complete.
+2025-01-08 21:16:39,874 - INFO - Style transfer complete!
+2025-01-08 21:16:39,898 - INFO - Image saved to images/output/impressionism_styled_image.jpg
+2025-01-08 21:16:39,898 - INFO - Styled image saved to: images/output/impressionism_styled_image.jpg
+2025-01-08 21:26:04,059 - INFO - UI loaded successfully.
+2025-01-08 21:27:02,869 - INFO - UI loaded successfully.
+2025-01-08 21:27:13,586 - INFO - UI loaded successfully.
+2025-01-08 21:27:13,589 - INFO - Device set to: CPU
+2025-01-08 21:27:14,513 - INFO - Pretrained VGG-19 model loaded successfully.
+2025-01-08 21:27:14,514 - INFO - Style selected: impressionism
+2025-01-08 21:27:14,514 - INFO - Content image uploaded: Figure_1.png
+2025-01-08 21:28:02,423 - INFO - UI loaded successfully.
+2025-01-08 21:28:02,429 - INFO - Device set to: CPU
+2025-01-08 21:28:03,394 - INFO - Pretrained VGG-19 model loaded successfully.
+2025-01-08 21:28:03,395 - INFO - Style selected: impressionism
+2025-01-08 21:28:03,395 - INFO - Content image uploaded: Figure_1.png
+2025-01-08 21:28:03,497 - INFO - Style transfer started.
+2025-01-08 21:28:05,596 - INFO - Starting style application for 300 iterations...
+2025-01-08 21:28:08,107 - INFO - Iteration 1/300 - Content Loss: 0.0000, Style Loss: 1294.4312, Total Loss: 1294431104.0000
+2025-01-08 21:28:31,078 - INFO - Iteration 10/300 - Content Loss: 2.9137, Style Loss: 680.9606, Total Loss: 680960640.0000
+2025-01-08 21:28:56,364 - INFO - Iteration 20/300 - Content Loss: 4.1681, Style Loss: 514.5905, Total Loss: 514590464.0000
+2025-01-08 21:29:21,216 - INFO - Iteration 30/300 - Content Loss: 4.9468, Style Loss: 451.7093, Total Loss: 451709312.0000
+2025-01-08 21:29:44,784 - INFO - Iteration 40/300 - Content Loss: 5.5161, Style Loss: 417.1112, Total Loss: 417111232.0000
+2025-01-08 21:30:09,488 - INFO - Iteration 50/300 - Content Loss: 5.9648, Style Loss: 393.8775, Total Loss: 393877504.0000
+2025-01-08 21:30:33,554 - INFO - Iteration 60/300 - Content Loss: 6.3614, Style Loss: 376.2756, Total Loss: 376275584.0000
+2025-01-08 21:30:57,184 - INFO - Iteration 70/300 - Content Loss: 6.7229, Style Loss: 361.8690, Total Loss: 361868992.0000
+2025-01-08 21:31:21,173 - INFO - Iteration 80/300 - Content Loss: 7.0677, Style Loss: 349.5375, Total Loss: 349537472.0000
+2025-01-08 21:31:45,585 - INFO - Iteration 90/300 - Content Loss: 7.3880, Style Loss: 338.6896, Total Loss: 338689632.0000
+2025-01-08 21:32:09,925 - INFO - Iteration 100/300 - Content Loss: 7.6845, Style Loss: 328.9816, Total Loss: 328981568.0000
+2025-01-08 21:32:34,341 - INFO - Iteration 110/300 - Content Loss: 7.9509, Style Loss: 320.2181, Total Loss: 320218144.0000
+2025-01-08 21:32:58,990 - INFO - Iteration 120/300 - Content Loss: 8.1946, Style Loss: 312.2115, Total Loss: 312211488.0000
+2025-01-08 21:33:23,269 - INFO - Iteration 130/300 - Content Loss: 8.4173, Style Loss: 304.8389, Total Loss: 304838944.0000
+2025-01-08 21:33:49,942 - INFO - Iteration 140/300 - Content Loss: 8.6159, Style Loss: 298.0019, Total Loss: 298001920.0000
+2025-01-08 21:34:16,321 - INFO - Iteration 150/300 - Content Loss: 8.7986, Style Loss: 291.6126, Total Loss: 291612576.0000
+2025-01-08 21:34:42,834 - INFO - Iteration 160/300 - Content Loss: 8.9669, Style Loss: 285.6284, Total Loss: 285628352.0000
+2025-01-08 21:35:08,192 - INFO - Iteration 170/300 - Content Loss: 9.1202, Style Loss: 279.9987, Total Loss: 279998720.0000
+2025-01-08 21:35:32,255 - INFO - Iteration 180/300 - Content Loss: 9.2627, Style Loss: 274.6819, Total Loss: 274681920.0000
+2025-01-08 21:35:58,177 - INFO - Iteration 190/300 - Content Loss: 9.3914, Style Loss: 269.6417, Total Loss: 269641728.0000
+2025-01-08 21:36:23,672 - INFO - Iteration 200/300 - Content Loss: 9.5101, Style Loss: 264.8575, Total Loss: 264857536.0000
+2025-01-08 21:36:48,097 - INFO - Iteration 210/300 - Content Loss: 9.6190, Style Loss: 260.3014, Total Loss: 260301408.0000
+2025-01-08 21:37:12,561 - INFO - Iteration 220/300 - Content Loss: 9.7197, Style Loss: 255.9487, Total Loss: 255948720.0000
+2025-01-08 21:37:37,116 - INFO - Iteration 230/300 - Content Loss: 9.8119, Style Loss: 251.7798, Total Loss: 251779824.0000
+2025-01-08 21:38:03,610 - INFO - Iteration 240/300 - Content Loss: 9.8983, Style Loss: 247.7832, Total Loss: 247783216.0000
+2025-01-08 21:38:29,090 - INFO - Iteration 250/300 - Content Loss: 9.9794, Style Loss: 243.9448, Total Loss: 243944784.0000
+2025-01-08 21:38:54,553 - INFO - Iteration 260/300 - Content Loss: 10.0567, Style Loss: 240.2492, Total Loss: 240249184.0000
+2025-01-08 21:39:20,332 - INFO - Iteration 270/300 - Content Loss: 10.1291, Style Loss: 236.6850, Total Loss: 236684992.0000
+2025-01-08 21:39:47,128 - INFO - Iteration 280/300 - Content Loss: 10.2011, Style Loss: 233.2411, Total Loss: 233241136.0000
+2025-01-08 21:40:14,197 - INFO - Iteration 290/300 - Content Loss: 10.2667, Style Loss: 229.9115, Total Loss: 229911568.0000
+2025-01-08 21:40:39,715 - INFO - Iteration 300/300 - Content Loss: 10.3289, Style Loss: 226.6860, Total Loss: 226686048.0000
+2025-01-08 21:40:39,715 - INFO - Style application complete.
+2025-01-08 21:40:39,761 - INFO - Style transfer completed successfully.
+2025-01-08 21:40:39,782 - INFO - Styled image ready for download.
+2025-01-08 21:41:44,426 - INFO - UI loaded successfully.
+2025-01-08 21:41:44,431 - INFO - Device set to: CPU
+2025-01-08 21:41:45,388 - INFO - Pretrained VGG-19 model loaded successfully.
+2025-01-08 21:41:45,389 - INFO - Style selected: impressionism
+2025-01-08 21:41:45,389 - INFO - Content image uploaded: Figure_1.png

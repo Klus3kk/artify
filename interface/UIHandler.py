@@ -4,6 +4,10 @@ from core.ImageProcessor import ImageProcessor
 from utilities.StyleRegistry import StyleRegistry
 from PIL import Image
 import io
+import logging
+from utilities.Logger import Logger
+
+logger = Logger.setup_logger(log_file="artify_ui.log", log_level=logging.INFO)
 
 
 def main():
@@ -12,6 +16,8 @@ def main():
 
     st.title("Artify: AI-Powered Image Style Transfer")
     st.write("Upload your content image and choose a style category to generate a styled result!")
+
+    logger.info("UI loaded successfully.")
 
     style_registry = StyleRegistry()
     style_categories = list(style_registry.styles.keys())
@@ -24,6 +30,9 @@ def main():
             processor = ImageProcessor()
             model = StyleTransferModel()
 
+            logger.info(f"Style selected: {style_category}")
+            logger.info(f"Content image uploaded: {content_file.name}")
+
             content_image = Image.open(content_file).convert("RGB")
             style_image_path = style_registry.get_random_style_image(style_category)
             style_image = Image.open(style_image_path).convert("RGB")
@@ -33,8 +42,10 @@ def main():
 
             if st.button("Generate Styled Image"):
                 with st.spinner("Applying style... Please wait."):
+                    logger.info("Style transfer started.")
                     styled_image = model.apply_style(content_image, style_image)
                     st.image(styled_image, caption="Styled Image", use_column_width=True)
+                    logger.info("Style transfer completed successfully.")
 
                 # Convert styled image for download
                 styled_image_io = io.BytesIO()
@@ -48,8 +59,10 @@ def main():
                     mime="image/jpeg"
                 )
                 st.success("Style transfer complete! 🎉")
+                logger.info("Styled image ready for download.")
 
         except Exception as e:
+            logger.error(f"Error occurred: {e}")
             st.error(f"An error occurred: {e}")
 
 

@@ -63,3 +63,19 @@ class ImageProcessor:
                     logging.info(f"Processed: {output_path}")
                 except Exception as e:
                     logging.error(f"Failed to process {file_name}: {e}")
+
+    @staticmethod
+    def save_image(image, output_path):
+        """
+        Save a PIL Image to the specified output path.
+        :param image: PIL Image object.
+        :param output_path: Path to save the image.
+        """
+        try:
+            output_dir = Path(output_path).parent
+            output_dir.mkdir(parents=True, exist_ok=True)  # Ensure the output directory exists
+            image.save(output_path, format="JPEG" if output_path.lower().endswith(".jpg") else "PNG")
+            logging.info(f"Image saved to {output_path}")
+        except Exception as e:
+            logging.error(f"Failed to save image to {output_path}: {e}")
+            raise

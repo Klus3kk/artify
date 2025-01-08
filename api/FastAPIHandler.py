@@ -5,8 +5,12 @@ from utilities.StyleRegistry import StyleRegistry
 from PIL import Image
 from io import BytesIO
 from pathlib import Path
-import logging
 from werkzeug.utils import secure_filename
+from utilities.Logger import Logger
+import logging
+
+# Set up logger
+logger = Logger.setup_logger(log_file="fastapi.log", log_level=logging.INFO)
 
 # Initialize FastAPI and shared components
 app = FastAPI()
@@ -19,38 +23,37 @@ OUTPUT_DIR = Path("images/output")
 try:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 except Exception as e:
-    logging.error(f"Failed to create output directory: {e}")
+    logger.error(f"Failed to create output directory: {e}")
     raise
 
 @app.post("/apply_style/")
 async def apply_style(content: UploadFile = File(...), style_category: str = "impressionism"):
-    # Dynamically load the model for the selected style
+    logger.info(f"Received style application request with category '{style_category}'")
     model_path = f"models/{style_category}_model.pth"
     try:
-        model.load_model_from_gcloud("your-bucket-name", model_path)
+        model.load_model(model_path)
     except FileNotFoundError:
+        logger.error(f"Model for category '{style_category}' not found.")
         return {"error": f"Model for category '{style_category}' not found."}
     except Exception as e:
-        logging.error(f"Error loading model: {e}")
+        logger.error(f"Error loading model: {e}")
         return {"error": "Failed to load the model. Please try again later."}
 
-    # Read content image
     try:
         content_image = Image.open(BytesIO(await content.read())).convert("RGB")
     except Exception as e:
-        logging.error(f"Error processing content image: {e}")
+        logger.error(f"Error processing content image: {e}")
         return {"error": "Invalid content image. Please upload a valid image file."}
 
-    # Apply the style
     styled_image = model.apply_style(content_image, None)
-
-    # Save and return the styled image
     filename = secure_filename(content.filename)
     output_path = OUTPUT_DIR / f"styled_{filename}"
     processor.save_image(styled_image, output_path)
+    logger.info(f"Styled image saved to {output_path}")
 
     return {"message": "Style applied successfully!", "output_path": str(output_path)}
 
 @app.get("/")
 def root():
+    logger.info("Root endpoint accessed.")
     return {"message": "Welcome to Artify! Use /apply_style to stylize your images."}

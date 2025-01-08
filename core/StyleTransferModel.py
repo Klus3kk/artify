@@ -5,41 +5,42 @@ from torchvision.models import vgg19
 from PIL import Image
 import logging
 import os
+from utilities.Logger import Logger
+
+# Set up the logger
+logger = Logger.setup_logger(log_file="artify.log", log_level=logging.INFO)
 
 
 class StyleTransferModel:
     def __init__(self):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        logging.info(f"Device set to: {'GPU' if torch.cuda.is_available() else 'CPU'}")
+        logger.info(f"Device set to: {'GPU' if torch.cuda.is_available() else 'CPU'}")
         self.model = self._load_pretrained_model()
+        self.style_features_cache = {}
 
     def _load_pretrained_model(self):
         try:
             model = vgg19(pretrained=True).features
             for param in model.parameters():
                 param.requires_grad = False
-            logging.info("Pretrained VGG-19 model loaded successfully.")
+            logger.info("Pretrained VGG-19 model loaded successfully.")
             return model.to(self.device)
         except Exception as e:
-            logging.error(f"Failed to load pretrained model: {e}")
+            logger.error(f"Failed to load pretrained model: {e}")
             raise
 
     def apply_style(self, content_image, style_image, iterations=300, style_weight=1e6, content_weight=1):
-        # Preprocess images
         content_tensor = self._image_to_tensor(content_image).to(self.device)
         style_tensor = self._image_to_tensor(style_image).to(self.device)
 
-        # Initialize target image (clone of content image)
         target = content_tensor.clone().requires_grad_(True)
+        optimizer = optim.Adam([target], lr=0.005)
 
-        # Define optimizer
-        optimizer = optim.Adam([target], lr=0.003)
-
-        # Feature maps for content and style
-        style_features = self._extract_features(style_tensor)
+        # Cache style features
+        style_features = self._extract_or_cache_style_features(style_tensor)
         content_features = self._extract_features(content_tensor)
 
-        # Compute style and content losses
+        logger.info(f"Starting style application for {iterations} iterations...")
         for i in range(iterations):
             target_features = self._extract_features(target)
             content_loss = self._calculate_content_loss(content_features, target_features)
@@ -51,7 +52,22 @@ class StyleTransferModel:
             total_loss.backward()
             optimizer.step()
 
+            if (i + 1) % 10 == 0 or i == 0:
+                logger.info(
+                    f"Iteration {i + 1}/{iterations} - "
+                    f"Content Loss: {content_loss.item():.4f}, "
+                    f"Style Loss: {style_loss.item():.4f}, "
+                    f"Total Loss: {total_loss.item():.4f}"
+                )
+
+        logger.info("Style application complete.")
         return self._tensor_to_image(target)
+
+    def _extract_or_cache_style_features(self, style_tensor):
+        key = hash(style_tensor.detach().cpu().numpy().tobytes())
+        if key not in self.style_features_cache:
+            self.style_features_cache[key] = self._extract_features(style_tensor)
+        return self.style_features_cache[key]
 
     def _image_to_tensor(self, image, target_size=(512, 512)):
         """
@@ -61,18 +77,16 @@ class StyleTransferModel:
         :return: Normalized tensor.
         """
         transform = transforms.Compose([
-            transforms.Resize(target_size),  # Resize to target size
+            transforms.Resize(target_size),
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
         ])
         return transform(image).unsqueeze(0)
 
     def _tensor_to_image(self, tensor):
-        unnormalize = transforms.Normalize(
-            mean=[-2.12, -2.04, -1.8],
-            std=[4.37, 4.46, 4.44],
-        )
-        tensor = unnormalize(tensor.squeeze(0))
+        tensor = tensor.squeeze(0).detach().cpu()
+        unnormalize = transforms.Normalize(mean=[-2.12, -2.04, -1.8], std=[4.37, 4.46, 4.44])
+        tensor = unnormalize(tensor)
         return transforms.ToPILImage()(tensor)
 
     def _extract_features(self, tensor):
@@ -140,7 +154,7 @@ class StyleTransferModel:
         content_features = self._extract_features(content_tensor)
 
         # Training loop
-        print(f"Starting training for {iterations} iterations...")
+        logger.info(f"Training model for {iterations} iterations...")
         for i in range(iterations):
             target_features = self._extract_features(target)
             content_loss = self._calculate_content_loss(content_features, target_features)
@@ -153,15 +167,18 @@ class StyleTransferModel:
             total_loss.backward()
             optimizer.step()
 
+
             if (i + 1) % 10 == 0 or i == 0:
-                logging.info(f"\nIteration {i + 1}/{iterations}: \n"
-                    f"Content Loss = {content_loss.item():.4f} \n"
-                    f"Style Loss = {style_loss.item():.4f} \n"
-                    f"TV Loss = {tv_loss.item():.4f} \n"
-                    f"Total Loss = {total_loss.item():.4f}")
+                logger.info(
+                    f"Iteration {i + 1}/{iterations} - "
+                    f"Content Loss: {content_loss.item():.4f}, "
+                    f"Style Loss: {style_loss.item():.4f}, "
+                    f"TV Loss: {tv_loss.item():.4f}, "
+                    f"Total Loss: {total_loss.item():.4f}"
+                )
 
         torch.save(target, output_path)
-        print(f"Model saved to {output_path}")
+        logger.info(f"Model saved to {output_path}")
 
 
 
@@ -171,7 +188,7 @@ class StyleTransferModel:
         :param model_path: Path to the model file.
         """
         self.model = torch.load(model_path, map_location=self.device)
-        print(f"Model loaded from {model_path}")
+        logger.info(f"Model loaded from {model_path}")
 
     def load_model_from_gcloud(self, bucket_name, model_name):
         """
@@ -187,4 +204,4 @@ class StyleTransferModel:
         local_path = f"/tmp/{model_name}"
         blob.download_to_filename(local_path)
         self.load_model(local_path)
-        print(f"Model loaded from GCS bucket {bucket_name}, file {model_name}")
+        logger.info(f"Model loaded from GCS bucket {bucket_name}, file {model_name}")

@@ -28,7 +28,7 @@ Artify's architecture is modular and well-structured, comprising the following c
    - **StyleRegistry**:
      - Manages available artistic styles and random style image retrieval.
 
-## Architecture Diagram
+## Architecture Diagram (in progress)
 ```mermaid
 flowchart TD
     A[CLI/UI] -->|Input| B[StyleRegistry]

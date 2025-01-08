@@ -6,16 +6,21 @@ from PIL import Image
 import logging
 import os
 from utilities.Logger import Logger
+from core.HuggingFaceHandler import HuggingFaceHandler
 
 # Set up the logger
 logger = Logger.setup_logger(log_file="artify.log", log_level=logging.INFO)
 
 
 class StyleTransferModel:
-    def __init__(self):
+    def __init__(self, hf_token):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         logger.info(f"Device set to: {'GPU' if torch.cuda.is_available() else 'CPU'}")
         self.model = self._load_pretrained_model()
+        self.hf_handler = HuggingFaceHandler(hf_token)
+        self.models_dir = "models"
+        os.makedirs(self.models_dir, exist_ok=True)
+
 
     def _load_pretrained_model(self):
         """
@@ -30,6 +35,37 @@ class StyleTransferModel:
         except Exception as e:
             logger.error(f"Failed to load pretrained model: {e}")
             raise
+
+    def ensure_model(self, style_category):
+        """
+        Ensure that the model for the given style category is available locally.
+        If not, download it from Hugging Face Hub.
+
+        :param style_category: Name of the style category.
+        :return: Path to the model file.
+        """
+        model_filename = f"{style_category}_model.pth"
+        model_path = os.path.join(self.models_dir, model_filename)
+
+        if not os.path.exists(model_path):
+            logger.info(f"Model for '{style_category}' not found locally. Downloading...")
+            # Correctly specify the repo_id as the repository name
+            repo_id = "ClueSec/artify-models"
+            try:
+                # Download the repository and extract the specific model file
+                downloaded_dir = self.hf_handler.download_model(repo_id, cache_dir=self.models_dir)
+                downloaded_model_path = os.path.join(downloaded_dir, model_filename)
+                if not os.path.exists(downloaded_model_path):
+                    raise FileNotFoundError(f"Model file '{model_filename}' not found in downloaded repository.")
+                
+                # Move the model to the expected models directory
+                os.rename(downloaded_model_path, model_path)
+                logger.info(f"Model for '{style_category}' downloaded and saved to {model_path}.")
+            except Exception as e:
+                logger.error(f"Failed to download model for '{style_category}': {e}")
+                raise
+        return model_path
+
 
     def apply_style(self, content_image, style_image, iterations=300, style_weight=1e6, content_weight=1e0, tv_weight=1e-4):
         """

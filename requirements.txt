@@ -7,3 +7,4 @@ streamlit
 pytest
 zenml[server] 
 zenml[pytorch]
+huggingface_hub

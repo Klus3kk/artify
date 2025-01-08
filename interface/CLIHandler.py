@@ -28,8 +28,13 @@ def main():
 
     # Initialize components
     logger.info("[2/5] Initializing components...")
+    hf_token = os.getenv("HF_TOKEN")
+    if not hf_token:
+        logger.error("Hugging Face token not set. Set it via the HF_TOKEN environment variable.")
+        return
+
+    model = StyleTransferModel(hf_token)
     processor = ImageProcessor()
-    model = StyleTransferModel()
     registry = StyleRegistry()
 
     if args.style_category not in registry.styles:
@@ -37,9 +42,17 @@ def main():
         logger.info(f"Available categories: {', '.join(registry.styles.keys())}")
         return
 
+    # Ensure model for the style category
+    try:
+        logger.info(f"[3/5] Ensuring model for '{args.style_category}'...")
+        model.ensure_model(args.style_category)
+    except Exception as e:
+        logger.error(f"Failed to ensure model: {e}")
+        return
+
     # Preprocess the content image
     try:
-        logger.info("[3/5] Preprocessing content image...")
+        logger.info("[4/5] Preprocessing content image...")
         content_image = processor.preprocess_image(args.content)
     except Exception as e:
         logger.error(f"Error preprocessing content image: {e}")
@@ -47,7 +60,7 @@ def main():
 
     # Fetch and preprocess the style image
     try:
-        logger.info("[4/5] Loading and preprocessing style image...")
+        logger.info("[5/5] Loading and preprocessing style image...")
         style_image_path = registry.get_random_style_image(args.style_category)
         style_image = processor.preprocess_image(style_image_path)
     except Exception as e:
@@ -56,7 +69,7 @@ def main():
 
     # Apply the style
     try:
-        logger.info("[5/5] Applying style transfer... This may take a few moments.")
+        logger.info("[6/6] Applying style transfer... This may take a few moments.")
         styled_image = model.apply_style(content_image, style_image)
         logger.info("Style transfer complete!")
     except Exception as e:

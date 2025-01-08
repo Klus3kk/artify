@@ -8,14 +8,20 @@ from pathlib import Path
 from werkzeug.utils import secure_filename
 from utilities.Logger import Logger
 import logging
+import os
 
 # Set up logger
 logger = Logger.setup_logger(log_file="fastapi.log", log_level=logging.INFO)
 
 # Initialize FastAPI and shared components
 app = FastAPI()
+
+# Retrieve Hugging Face token from environment variables
+hf_token = os.getenv("HF_TOKEN", "mock_token")  # Default to "mock_token" for testing purposes
+
+# Initialize shared components
 processor = ImageProcessor()
-model = StyleTransferModel()
+model = StyleTransferModel(hf_token)
 registry = StyleRegistry()
 
 # Output directory
@@ -25,6 +31,7 @@ try:
 except Exception as e:
     logger.error(f"Failed to create output directory: {e}")
     raise
+
 
 @app.post("/apply_style/")
 async def apply_style(content: UploadFile = File(...), style_category: str = "impressionism"):
@@ -52,6 +59,7 @@ async def apply_style(content: UploadFile = File(...), style_category: str = "im
     logger.info(f"Styled image saved to {output_path}")
 
     return {"message": "Style applied successfully!", "output_path": str(output_path)}
+
 
 @app.get("/")
 def root():

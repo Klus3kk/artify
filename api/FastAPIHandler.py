@@ -36,21 +36,28 @@ except Exception as e:
 @app.post("/apply_style/")
 async def apply_style(content: UploadFile = File(...), style_category: str = "impressionism"):
     logger.info(f"Received style application request with category '{style_category}'")
+
+    # Validate the style category
+    if style_category not in registry.styles:
+        logger.error(f"Invalid style category: '{style_category}'")
+        return {"error": f"Invalid style category: '{style_category}'"}, 400
+
     model_path = f"models/{style_category}_model.pth"
+    logger.info(f"Looking for model at: {model_path}")
     try:
         model.load_model(model_path)
     except FileNotFoundError:
         logger.error(f"Model for category '{style_category}' not found.")
-        return {"error": f"Model for category '{style_category}' not found."}
+        return {"error": f"Model for category '{style_category}' not found."}, 400
     except Exception as e:
         logger.error(f"Error loading model: {e}")
-        return {"error": "Failed to load the model. Please try again later."}
+        return {"error": "Failed to load the model. Please try again later."}, 500
 
     try:
         content_image = Image.open(BytesIO(await content.read())).convert("RGB")
     except Exception as e:
         logger.error(f"Error processing content image: {e}")
-        return {"error": "Invalid content image. Please upload a valid image file."}
+        return {"error": "Invalid content image. Please upload a valid image file."}, 400
 
     styled_image = model.apply_style(content_image, None)
     filename = secure_filename(content.filename)

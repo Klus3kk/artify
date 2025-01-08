@@ -15,19 +15,19 @@ class HuggingFaceHandler:
         """
         self.token = token
 
-    def download_model(self, model_name: str, cache_dir="models"):
+    def download_model(self, repo_id: str, cache_dir="models"):
         """
-        Download a model from Hugging Face Hub if not already available.
+        Download a Hugging Face repository.
 
-        :param model_name: Name of the model to download (e.g., 'username/repo_name').
-        :param cache_dir: Directory to save the downloaded model.
-        :return: Path to the downloaded model.
+        :param repo_id: Name of the Hugging Face repository (e.g., 'ClueSec/artify-models').
+        :param cache_dir: Directory to cache downloaded models.
+        :return: Path to the downloaded repository.
         """
         try:
-            logger.info(f"Checking for model '{model_name}' in cache or downloading it from Hugging Face Hub...")
-            model_path = snapshot_download(repo_id=model_name, cache_dir=cache_dir, token=self.token)
-            logger.info(f"Model downloaded to {model_path}.")
-            return model_path
+            logger.info(f"Downloading repository '{repo_id}' from Hugging Face Hub...")
+            repo_path = snapshot_download(repo_id=repo_id, cache_dir=cache_dir, token=self.token)
+            logger.info(f"Repository downloaded to {repo_path}.")
+            return repo_path
         except Exception as e:
-            logger.error(f"Failed to download model '{model_name}': {e}")
+            logger.error(f"Failed to download repository '{repo_id}': {e}")
             raise

@@ -38,33 +38,34 @@ class StyleTransferModel:
 
     def ensure_model(self, style_category):
         """
-        Ensure that the model for the given style category is available locally.
-        If not, download it from Hugging Face Hub.
+        Ensure the required style model file exists locally or download it.
 
-        :param style_category: Name of the style category.
-        :return: Path to the model file.
+        :param style_category: The name of the style category (e.g., 'impressionism').
+        :return: Path to the style model file.
         """
         model_filename = f"{style_category}_model.pth"
         model_path = os.path.join(self.models_dir, model_filename)
 
         if not os.path.exists(model_path):
-            logger.info(f"Model for '{style_category}' not found locally. Downloading...")
-            # Correctly specify the repo_id as the repository name
-            repo_id = "ClueSec/artify-models"
+            logger.info(f"Model '{model_filename}' not found locally. Attempting to download...")
             try:
-                # Download the repository and extract the specific model file
-                downloaded_dir = self.hf_handler.download_model(repo_id, cache_dir=self.models_dir)
-                downloaded_model_path = os.path.join(downloaded_dir, model_filename)
+                # Use download_model correctly
+                repo_dir = self.hf_handler.download_model(repo_id="ClueSec/artify-models", cache_dir=self.models_dir)
+                downloaded_model_path = os.path.join(repo_dir, model_filename)
+
                 if not os.path.exists(downloaded_model_path):
-                    raise FileNotFoundError(f"Model file '{model_filename}' not found in downloaded repository.")
-                
-                # Move the model to the expected models directory
+                    raise FileNotFoundError(f"Model file '{model_filename}' not found in the downloaded repository.")
+
+                # Move the model file to the models directory
                 os.rename(downloaded_model_path, model_path)
-                logger.info(f"Model for '{style_category}' downloaded and saved to {model_path}.")
+                logger.info(f"Model '{model_filename}' successfully downloaded and moved to {model_path}.")
             except Exception as e:
-                logger.error(f"Failed to download model for '{style_category}': {e}")
+                logger.error(f"Failed to download model '{model_filename}': {e}")
                 raise
+
+        logger.info(f"Model '{model_filename}' is ready at {model_path}.")
         return model_path
+
 
 
     def apply_style(self, content_image, style_image, iterations=300, style_weight=1e6, content_weight=1e0, tv_weight=1e-4):

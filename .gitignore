@@ -4,3 +4,4 @@ test
 .pytest_cache
 images/content/
 images/output/
+models

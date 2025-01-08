@@ -5,6 +5,7 @@ pillow
 matplotlib 
 streamlit 
 pytest
+httpx
 zenml[server] 
 zenml[pytorch]
 huggingface_hub

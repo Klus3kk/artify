@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: artify-backend-service
+spec:
+  selector:
+    app: artify-backend
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+  type: NodePort  # Change to LoadBalancer for production

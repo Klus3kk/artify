@@ -16,11 +16,13 @@ class StyleTransferModel:
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         logger.info(f"Device set to: {'GPU' if torch.cuda.is_available() else 'CPU'}")
         self.model = self._load_pretrained_model()
-        self.style_features_cache = {}
 
     def _load_pretrained_model(self):
+        """
+        Load the pretrained VGG-19 model and cache layer outputs for faster extraction.
+        """
         try:
-            model = vgg19(pretrained=True).features
+            model = vgg19(pretrained=True).features.eval()
             for param in model.parameters():
                 param.requires_grad = False
             logger.info("Pretrained VGG-19 model loaded successfully.")
@@ -29,39 +31,59 @@ class StyleTransferModel:
             logger.error(f"Failed to load pretrained model: {e}")
             raise
 
-    def apply_style(self, content_image, style_image, iterations=300, style_weight=1e6, content_weight=1):
+    def apply_style(self, content_image, style_image, iterations=300, style_weight=1e6, content_weight=1e0, tv_weight=1e-4):
+        """
+        Apply style transfer with dynamic weight scaling and intermediate output.
+        """
+        logger.info("Starting style transfer process...")
         content_tensor = self._image_to_tensor(content_image).to(self.device)
         style_tensor = self._image_to_tensor(style_image).to(self.device)
-
         target = content_tensor.clone().requires_grad_(True)
-        optimizer = optim.Adam([target], lr=0.005)
 
-        # Cache style features
-        style_features = self._extract_or_cache_style_features(style_tensor)
+        optimizer = optim.AdamW([target], lr=0.003)
+        scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=100, gamma=0.5)
+
+        # Precompute style and content features
+        logger.info("Extracting features for style and content...")
+        style_features = self._extract_features(style_tensor)
         content_features = self._extract_features(content_tensor)
 
-        logger.info(f"Starting style application for {iterations} iterations...")
+        # Training loop
+        logger.info(f"Running {iterations} iterations for style transfer...")
         for i in range(iterations):
+            optimizer.zero_grad()
+
             target_features = self._extract_features(target)
             content_loss = self._calculate_content_loss(content_features, target_features)
             style_loss = self._calculate_style_loss(style_features, target_features)
+            tv_loss = self._calculate_tv_loss(target)
 
-            total_loss = style_weight * style_loss + content_weight * content_loss
+            # Adjust loss weights dynamically
+            scaled_style_weight = style_weight * (1 + 0.5 * (i / iterations))
+            total_loss = scaled_style_weight * style_loss + content_weight * content_loss + tv_weight * tv_loss
 
-            optimizer.zero_grad()
             total_loss.backward()
             optimizer.step()
+            scheduler.step()
 
-            if (i + 1) % 10 == 0 or i == 0:
+            # Log progress
+            if (i + 1) % 20 == 0 or i == 0:
                 logger.info(
                     f"Iteration {i + 1}/{iterations} - "
                     f"Content Loss: {content_loss.item():.4f}, "
                     f"Style Loss: {style_loss.item():.4f}, "
+                    f"TV Loss: {tv_loss.item():.4f}, "
                     f"Total Loss: {total_loss.item():.4f}"
                 )
+                # Save intermediate result every 50 iterations
+                if (i + 1) % 50 == 0:
+                    intermediate_image = self._tensor_to_image(target)
+                    intermediate_image.save(f"logs/intermediate_{i + 1}.jpg")
+                    logger.info(f"Intermediate image saved at iteration {i + 1}.")
 
-        logger.info("Style application complete.")
+        logger.info("Style transfer complete.")
         return self._tensor_to_image(target)
+
 
     def _extract_or_cache_style_features(self, style_tensor):
         key = hash(style_tensor.detach().cpu().numpy().tobytes())
@@ -84,12 +106,21 @@ class StyleTransferModel:
         return transform(image).unsqueeze(0)
 
     def _tensor_to_image(self, tensor):
+        """
+        Convert a tensor back to a PIL image.
+        """
+        unnormalize = transforms.Normalize(
+            mean=[-2.12, -2.04, -1.8],
+            std=[4.37, 4.46, 4.44]
+        )
         tensor = tensor.squeeze(0).detach().cpu()
-        unnormalize = transforms.Normalize(mean=[-2.12, -2.04, -1.8], std=[4.37, 4.46, 4.44])
         tensor = unnormalize(tensor)
         return transforms.ToPILImage()(tensor)
 
     def _extract_features(self, tensor):
+        """
+        Cache and extract features from the VGG-19 model for speed optimization.
+        """
         layers = {
             "0": "conv1_1",
             "5": "conv2_1",
@@ -103,13 +134,19 @@ class StyleTransferModel:
         for name, layer in self.model._modules.items():
             x = layer(x)
             if name in layers:
-                features[layers[name]] = x
+                features[layers[name]] = x.clone()  # Cache results to reduce repeated calculations
         return features
 
     def _calculate_content_loss(self, content_features, target_features):
+        """
+        Compute content loss using MSE.
+        """
         return torch.mean((target_features["conv4_2"] - content_features["conv4_2"]) ** 2)
 
     def _calculate_style_loss(self, style_features, target_features):
+        """
+        Compute style loss using Gram matrices.
+        """
         style_loss = 0
         for layer in style_features:
             target_gram = self._gram_matrix(target_features[layer])
@@ -119,15 +156,22 @@ class StyleTransferModel:
         return style_loss
     
     def _calculate_tv_loss(self, tensor):
+        """
+        Compute total variation loss for smoothing.
+        """
         diff_x = torch.sum(torch.abs(tensor[:, :, :, :-1] - tensor[:, :, :, 1:]))
         diff_y = torch.sum(torch.abs(tensor[:, :, :-1, :] - tensor[:, :, 1:, :]))
         return diff_x + diff_y
 
 
     def _gram_matrix(self, tensor):
+        """
+        Compute the Gram matrix for a tensor.
+        """
         _, d, h, w = tensor.size()
         tensor = tensor.view(d, h * w)
         return torch.mm(tensor, tensor.t())
+
 
     def train_model(self, content_image, style_image, output_path, iterations=300, style_weight=1e6, content_weight=5):
         """

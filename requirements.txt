@@ -5,3 +5,5 @@ pillow
 matplotlib 
 streamlit 
 pytest
+zenml[server] 
+zenml[pytorch]

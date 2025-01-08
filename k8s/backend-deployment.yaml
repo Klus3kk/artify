@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: artify-backend
+  labels:
+    app: artify-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: artify-backend
+  template:
+    metadata:
+      labels:
+        app: artify-backend
+    spec:
+      containers:
+        - name: backend
+          image: artify:latest  # Replace with your image
+          ports:
+            - containerPort: 8000
+          env:
+            - name: MODELS_DIR
+              value: /models  # Path to store models in the container

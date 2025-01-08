@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: artify-config
+data:
+  FASTAPI_ENV: production
+  STREAMLIT_ENV: development

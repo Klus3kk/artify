@@ -94,3 +94,36 @@
 2025-01-08 21:41:45,388 - INFO - Pretrained VGG-19 model loaded successfully.
 2025-01-08 21:41:45,389 - INFO - Style selected: impressionism
 2025-01-08 21:41:45,389 - INFO - Content image uploaded: Figure_1.png
+2025-01-08 21:51:24,549 - INFO - [1/5] Validating input arguments...
+2025-01-08 21:51:24,549 - INFO - [2/5] Initializing components...
+2025-01-08 21:51:24,549 - INFO - Device set to: CPU
+2025-01-08 21:51:25,411 - INFO - Pretrained VGG-19 model loaded successfully.
+2025-01-08 21:51:25,412 - INFO - [3/5] Preprocessing content image...
+2025-01-08 21:51:25,423 - INFO - [4/5] Loading and preprocessing style image...
+2025-01-08 21:51:25,472 - INFO - [5/5] Applying style transfer... This may take a few moments.
+2025-01-08 21:51:25,472 - INFO - Starting style transfer process...
+2025-01-08 21:51:25,490 - INFO - Extracting features for style and content...
+2025-01-08 21:51:27,566 - INFO - Running 300 iterations for style transfer...
+2025-01-08 21:51:30,226 - INFO - Iteration 1/300 - Content Loss: 0.0000, Style Loss: 30725.0195, TV Loss: 52832.7656, Total Loss: 30725019648.0000
+2025-01-08 21:52:15,797 - INFO - Iteration 20/300 - Content Loss: 22.9809, Style Loss: 17150.7754, TV Loss: 74044.3906, Total Loss: 17693884416.0000
+2025-01-08 21:53:03,344 - INFO - Iteration 40/300 - Content Loss: 30.3735, Style Loss: 9646.3379, TV Loss: 95763.1016, Total Loss: 10273349632.0000
+2025-01-08 21:53:54,838 - INFO - Iteration 60/300 - Content Loss: 34.6395, Style Loss: 6430.8135, TV Loss: 111828.8906, Total Loss: 7063177216.0000
+2025-01-08 21:54:43,505 - INFO - Iteration 80/300 - Content Loss: 37.2432, Style Loss: 4747.7417, TV Loss: 123780.0938, Total Loss: 5372860928.0000
+2025-01-08 21:55:31,708 - INFO - Iteration 100/300 - Content Loss: 38.9762, Style Loss: 3863.3525, TV Loss: 131728.0625, Total Loss: 4500805632.0000
+2025-01-08 21:55:31,744 - INFO - Intermediate image saved at iteration 100.
+2025-01-08 21:56:18,553 - INFO - Iteration 120/300 - Content Loss: 39.6312, Style Loss: 3583.9871, TV Loss: 134118.2188, Total Loss: 4294811392.0000
+2025-01-08 21:57:07,176 - INFO - Iteration 140/300 - Content Loss: 40.1523, Style Loss: 3380.1677, TV Loss: 135665.0938, Total Loss: 4163239680.0000
+2025-01-08 21:57:56,085 - INFO - Iteration 160/300 - Content Loss: 40.6030, Style Loss: 3211.5505, TV Loss: 136922.9531, Total Loss: 4062611456.0000
+2025-01-08 21:58:44,945 - INFO - Iteration 180/300 - Content Loss: 41.0382, Style Loss: 3066.9302, TV Loss: 137957.7188, Total Loss: 3981897728.0000
+2025-01-08 21:59:35,192 - INFO - Iteration 200/300 - Content Loss: 41.4445, Style Loss: 2939.6177, TV Loss: 138837.8750, Total Loss: 3914590720.0000
+2025-01-08 21:59:35,227 - INFO - Intermediate image saved at iteration 200.
+2025-01-08 22:00:23,970 - INFO - Iteration 220/300 - Content Loss: 41.6526, Style Loss: 2876.9729, TV Loss: 139240.6250, Total Loss: 3927067904.0000
+2025-01-08 22:01:12,933 - INFO - Iteration 240/300 - Content Loss: 41.8450, Style Loss: 2819.2834, TV Loss: 139608.4375, Total Loss: 3942298112.0000
+2025-01-08 22:02:06,817 - INFO - Iteration 260/300 - Content Loss: 42.0321, Style Loss: 2763.1309, TV Loss: 139978.8750, Total Loss: 3955882240.0000
+2025-01-08 22:02:55,834 - INFO - Iteration 280/300 - Content Loss: 42.2229, Style Loss: 2708.3584, TV Loss: 140351.6875, Total Loss: 3967745024.0000
+2025-01-08 22:03:44,934 - INFO - Iteration 300/300 - Content Loss: 42.4249, Style Loss: 2654.9524, TV Loss: 140726.7188, Total Loss: 3978003712.0000
+2025-01-08 22:03:44,966 - INFO - Intermediate image saved at iteration 300.
+2025-01-08 22:03:44,966 - INFO - Style transfer complete.
+2025-01-08 22:03:44,979 - INFO - Style transfer complete!
+2025-01-08 22:03:44,994 - INFO - Image saved to images/output/impressionism_styled_image.jpg
+2025-01-08 22:03:44,994 - INFO - Styled image saved to: images/output/impressionism_styled_image.jpg

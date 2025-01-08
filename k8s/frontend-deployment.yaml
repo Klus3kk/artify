@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: artify-frontend
+  labels:
+    app: artify-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: artify-frontend
+  template:
+    metadata:
+      labels:
+        app: artify-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: artify:latest  # Replace with your image
+          command: ["streamlit", "run", "interface/UIHandler.py", "--server.port=8501"]
+          ports:
+            - containerPort: 8501

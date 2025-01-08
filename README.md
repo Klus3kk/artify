@@ -1,6 +1,5 @@
 # Artify
 
-![CI](https://github.com/Klus3kk/artify/actions/workflows/ci.yml/badge.svg)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20Windows%20%7C%20MacOS-green)](https://github.com/Klus3kk/artify)
 

@@ -13,7 +13,7 @@
 - 🌐 **Streamlit UI**: Upload images, choose styles, and generate styled results interactively.
 - 🔧 **Logging**: Transparent and detailed logging for all operations.
 - 🚀 **Hugging Face Integration**: Automatically download required models for styles.
-- 🐳 **Docker & Kubernetes**: Containerized for easy deployment and scalability.
+- 🐳 **Docker & Kubernetes (in the future)**: Containerized for easy deployment and scalability.
 
 ## Table of Contents
 
@@ -130,17 +130,7 @@ Run the container:
 docker run -p 8501:8501 artify
 ```
 
-### Kubernetes
-
-1. Create a `deployment.yaml` file in the `k8s/` directory.
-2. Apply the deployment:
-   ```bash
-   kubectl apply -f k8s/deployment.yaml
-   ```
-3. Expose the service:
-   ```bash
-   kubectl expose deployment artify --type=LoadBalancer --port=8501
-   ```
+### Kubernetes (in the future)
 
 ## License
 

@@ -18,3 +18,28 @@
 2025-01-09 00:22:47,507 - INFO - Iteration 20/300 - Content Loss: 49.5895, Style Loss: 90781.7266, TV Loss: 76249.7734, Total Loss: 93656481792.0000
 2025-01-09 00:23:14,517 - INFO - Iteration 40/300 - Content Loss: 72.7474, Style Loss: 52283.9414, TV Loss: 95442.1094, Total Loss: 55682396160.0000
 2025-01-09 00:23:43,434 - INFO - Iteration 60/300 - Content Loss: 76.6451, Style Loss: 40393.9844, TV Loss: 110022.4531, Total Loss: 44366061568.0000
+2025-02-10 00:25:56,894 - INFO - UI loaded successfully.
+2025-02-10 00:27:40,485 - INFO - UI loaded successfully.
+2025-02-10 00:27:45,576 - INFO - UI loaded successfully.
+2025-02-10 00:27:51,121 - INFO - UI loaded successfully.
+2025-02-10 00:27:51,141 - INFO - Device set to: CPU
+2025-02-10 00:28:42,050 - INFO - Pretrained VGG-19 model loaded successfully.
+2025-02-10 00:28:42,054 - INFO - Model 'impressionism_model.pth' not found locally. Attempting to download...
+2025-02-10 00:28:42,055 - INFO - Downloading repository 'ClueSec/artify-models' from Hugging Face Hub...
+2025-02-10 00:28:42,431 - INFO - Repository downloaded to models/models--ClueSec--artify-models/snapshots/14c23b02e4ba4ceae728c0881fe47856566d7ac3.
+2025-02-10 00:28:42,440 - INFO - Model 'impressionism_model.pth' successfully downloaded and moved to models/impressionism_model.pth.
+2025-02-10 00:28:42,440 - INFO - Model 'impressionism_model.pth' is ready at models/impressionism_model.pth.
+2025-02-10 00:29:00,904 - INFO - UI loaded successfully.
+2025-02-10 00:29:00,911 - INFO - Device set to: CPU
+2025-02-10 00:29:01,922 - INFO - Pretrained VGG-19 model loaded successfully.
+2025-02-10 00:29:01,924 - INFO - Model 'impressionism_model.pth' not found locally. Attempting to download...
+2025-02-10 00:29:01,925 - INFO - Downloading repository 'ClueSec/artify-models' from Hugging Face Hub...
+2025-02-10 00:29:02,235 - INFO - Repository downloaded to models/models--ClueSec--artify-models/snapshots/14c23b02e4ba4ceae728c0881fe47856566d7ac3.
+2025-02-10 00:29:02,235 - INFO - Model 'impressionism_model.pth' successfully downloaded and moved to models/impressionism_model.pth.
+2025-02-10 00:29:02,235 - INFO - Model 'impressionism_model.pth' is ready at models/impressionism_model.pth.
+2025-02-10 00:29:02,390 - INFO - Style transfer started.
+2025-02-10 00:29:02,391 - INFO - Starting style transfer process...
+2025-02-10 00:29:02,474 - INFO - Extracting features for style and content...
+2025-02-10 00:29:04,836 - INFO - Running 300 iterations for style transfer...
+2025-02-10 00:29:07,905 - INFO - Iteration 1/300 - Content Loss: 0.0000, Style Loss: 106465.7812, TV Loss: 95335.9219, Total Loss: 106465779712.0000
+2025-02-10 00:29:58,457 - INFO - Iteration 20/300 - Content Loss: 42.8379, Style Loss: 41327.7617, TV Loss: 124932.8516, Total Loss: 42636476416.0000

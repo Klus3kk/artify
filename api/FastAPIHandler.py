@@ -17,7 +17,7 @@ logger = Logger.setup_logger(log_file="fastapi.log", log_level=logging.INFO)
 app = FastAPI()
 
 # Retrieve Hugging Face token from environment variables
-hf_token = os.getenv("HF_TOKEN", "mock_token")  # Default to "mock_token" for testing purposes
+hf_token = os.getenv("HF_TOKEN", "mock_token")  
 
 # Initialize shared components
 processor = ImageProcessor()

@@ -5,3 +5,4 @@ test
 images/content/
 images/output/
 models
+*.pem

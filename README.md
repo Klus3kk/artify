@@ -106,15 +106,6 @@ streamlit run interface/UIHandler.py
    - Gram matrices for style features.
 4. **Output**: Styled image is generated and saved.
 
-## Examples
-
-### Input Image
-![Input Image](images/content/sample_content.jpg)
-
-### Output Image
-![Output Image](images/output/styled_image.jpg)
-
-
 ## Deployment
 
 ### Docker

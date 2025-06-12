@@ -9,3 +9,8 @@ httpx
 zenml[server] 
 zenml[pytorch]
 huggingface_hub
+lpips
+scikit-image
+scipy
+seaborn
+ipykernel   

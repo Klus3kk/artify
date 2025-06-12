@@ -8,3 +8,4 @@ models
 *.pem
 venv
 plans.md
+logs

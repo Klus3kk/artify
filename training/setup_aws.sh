@@ -13,10 +13,10 @@ COCO_SIZE="${COCO_SIZE:-5000}"
 S3_BUCKET="${S3_BUCKET:-artify-training}"
 
 echo "Training config:"
-echo "  Styles: $STYLES"
-echo "  Epochs: $EPOCHS"
-echo "  COCO size: $COCO_SIZE"
-echo "  S3 bucket: $S3_BUCKET"
+echo "Styles: $STYLES"
+echo "Epochs: $EPOCHS"
+echo "COCO size: $COCO_SIZE"
+echo "S3 bucket: $S3_BUCKET"
 
 # Update system
 echo "Updating system..."

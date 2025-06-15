@@ -3,6 +3,10 @@ Modern Artify UI - Production Ready
 Beautiful, fast, and user-friendly interface for style transfer
 """
 
+import os
+os.environ['TORCH_DISABLE_CLASSES'] = '1'
+os.environ['STREAMLIT_TORCH_COMPAT'] = '1'
+
 import streamlit as st
 import asyncio
 import time
@@ -12,8 +16,7 @@ from PIL import Image, ImageEnhance, ImageFilter
 import numpy as np
 from pathlib import Path
 import sys
-
-# Add project root to path
+sys.path.insert(0, '.')
 sys.path.append(str(Path(__file__).parent.parent))
 
 from core.StyleTransferModel import StyleTransferModel
@@ -281,7 +284,7 @@ class ModernArtifyUI:
             col1, col2 = st.columns([2, 1])
             
             with col1:
-                st.image(content_image, caption="Your Image", use_column_width=True)
+                st.image(content_image, caption="Your Image", use_container_width=True)
             
             with col2:
                 # Image info
@@ -399,11 +402,11 @@ class ModernArtifyUI:
             
             with col1:
                 st.markdown("**Original**")
-                st.image(content_image, use_column_width=True)
+                st.image(content_image, use_container_width=True)
             
             with col2:
                 st.markdown("**Stylized**")
-                st.image(st.session_state.result_image, use_column_width=True)
+                st.image(st.session_state.result_image, use_container_width=True)
             
             # Stats
             col1, col2, col3 = st.columns(3)

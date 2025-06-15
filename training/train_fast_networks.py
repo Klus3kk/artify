@@ -54,7 +54,7 @@ def parse_args():
     # Loss weights
     parser.add_argument('--content-weight', type=float, default=1.0,
                        help='Content loss weight')
-    parser.add_argument('--style-weight', type=float, default=1e6,
+    parser.add_argument('--style-weight', type=float, default=100.0,
                        help='Style loss weight')
     parser.add_argument('--tv-weight', type=float, default=1e-6,
                        help='Total variation loss weight')

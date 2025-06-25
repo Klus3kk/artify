@@ -5,7 +5,7 @@
 
 **Artify** is a user-friendly tool that applies artistic styles to images using AI. It supports both **CLI** and **UI-based interfaces** and integrates with Hugging Face, Docker, and Kubernetes for scalability and ease of deployment.
 
-## Key Features
+## Features
 
 - **AI-Powered Style Transfer**: Transform your images using pre-trained style models (e.g., Impressionism, Abstract, Surrealism).
 - **Command-Line Interface (CLI)**: Automate your workflows with a robust CLI.

@@ -77,20 +77,6 @@ streamlit run interface/UIHandler.py
 2. Select a style category (e.g., Impressionism).
 3. Generate the styled image and download it.
 
-
-## Architecture
-
-### High-Level Workflow
-
-1. **Input**: User uploads a content image and selects a style.
-2. **Preprocessing**:
-   - Image resizing and normalization.
-   - Pre-trained model is used for feature extraction.
-3. **Style Transfer**:
-   - Models trained on specific artistic styles.
-   - Gram matrices for style features.
-4. **Output**: Styled image is generated and saved.
-
 ## Deployment
 
 ### Docker

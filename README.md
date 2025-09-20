@@ -1,7 +1,6 @@
 # Artify
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20Windows%20%7C%20MacOS-green)](https://github.com/Klus3kk/artify)
 
 **Artify** is a user-friendly tool that applies artistic styles to images using AI. It supports both **CLI** and **UI-based interfaces**.
 
